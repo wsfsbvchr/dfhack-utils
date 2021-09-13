@@ -31,7 +31,7 @@ Fine-tuning with regular expressions:
 -- knowing these conversions might be useful with searching in some cases, but probably not necessary so I won't include that in help
 ---------
 function stripChars(str)
-  local tableAccents = {}
+    local tableAccents = {}
     tableAccents["À"] = "A"
     tableAccents["Á"] = "A"
     tableAccents["Â"] = "A"
