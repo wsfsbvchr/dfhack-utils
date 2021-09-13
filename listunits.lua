@@ -113,7 +113,7 @@ function ListUnits(searchstring)
     local index2	-- string.find's return value
     local do_search	-- operation mode, list all or search
     local matches = 0	-- counter for matches
-    local unit_total = #(df.global.world.units.active)	-- number of units
+    local unit_total = #(df.global.world.units.active)	-- total number of active units
 
     -- check whether a search string was provided, and set the search mode accordingly
     if searchstring and searchstring ~= nil and searchstring ~= "" then
