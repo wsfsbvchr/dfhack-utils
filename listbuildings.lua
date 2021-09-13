@@ -5,7 +5,6 @@ listbuildings
 =============
 Lists active buildings and their positions, optionally by filter.
 
-
 Example usage:
 
 `listbuildings` lists all active buildings
