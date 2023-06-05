@@ -95,9 +95,6 @@ function desert(u,method,civ)
 			break
 		end
 	end
-	
-	df.building.find()
-	dfhack.buildings.setOwner(item, nil)
 
 	-- try to find a new entity for the unit to join
 	for k,v in pairs(civ_ent.entity_links) do
