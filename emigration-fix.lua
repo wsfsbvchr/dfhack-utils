@@ -10,8 +10,11 @@ in proportion to how badly stressed they are and adjusted
 for who they would have to leave with - a dwarven merchant
 being more attractive than leaving alone (or with an elf).
 The check is made monthly.
+
 A happy dwarf (ie with negative stress) will never emigrate.
+
 Usage::
+
     emigration enable|disable
 ]====]
 
@@ -57,9 +60,7 @@ function desert(u,method,civ)
 	local newent_id = -1
 	local newsite_id = -1
 
-	---------------------------------------------
-	-- erase the unit from the fortress entity --
-	---------------------------------------------
+	-- erase the unit from the fortress entity
 	for k,v in pairs(fort_ent.histfig_ids) do
 		if tonumber(v) == hf_id then
 			df.global.ui.main.fortress_entity.histfig_ids:erase(k)
@@ -89,9 +90,7 @@ function desert(u,method,civ)
 		end
 	end
 
-	---------------------------------------------------
-	-- try to find a new entity for the unit to join --
-	---------------------------------------------------
+	-- try to find a new entity for the unit to join
 	for k,v in pairs(civ_ent.entity_links) do
 		if v.type == 1 and v.target ~= fort_ent.id then
 			newent_id = v.target
@@ -102,9 +101,7 @@ function desert(u,method,civ)
 	if newent_id > -1 then
 		hf.entity_links:insert("#", {new = df.histfig_entity_link_memberst, entity_id = newent_id, link_strength = 100})
 
-		-------------------------------------------------
-		-- try to find a new site for the unit to join --
-		-------------------------------------------------
+		-- try to find a new site for the unit to join
 		for k,v in pairs(df.global.world.entities.all[hf.civ_id].site_links) do
 			if v.type == 0 and v.target ~= site_id then
 				newsite_id = v.target
@@ -135,12 +132,7 @@ function canLeave(unit)
         return false
     end
 
-    for _, skill in pairs(unit.status.current_soul.skills) do
-        if skill.rating > 14 then return false end
-    end
-
-    return dfhack.units.isOwnRace(unit) and  --  Doubtful check. naturalized citizens
-           dfhack.units.isOwnCiv(unit) and   --  might also want to leave.
+    return dfhack.units.isCitizen(unit) and
            dfhack.units.isActive(unit) and
            not dfhack.units.isOpposedToLife(unit) and
            not unit.flags1.merchant and
@@ -148,7 +140,6 @@ function canLeave(unit)
            not unit.flags1.chained and
            dfhack.units.getNoblePositions(unit) == nil and
            unit.military.squad_id == -1 and
-           dfhack.units.isCitizen(unit) and
            dfhack.units.isSane(unit) and
            not dfhack.units.isBaby(unit) and
            not dfhack.units.isChild(unit)
@@ -179,9 +170,12 @@ function checkmigrationnow()
             --if unit.flags1.diplomat then table.insert(diplomat_civ_ids, unit.civ_id) end
         end
     end
-
+    
+    if #merchant_civ_ids == 0 and #diplomat_civ_ids == 0 then
+        checkForDeserters('wild', df.global.ui.main.fortress_entity.entity_links[0].target)
+    end
     for _, civ_id in pairs(merchant_civ_ids) do checkForDeserters('merchant', civ_id) end
-    checkForDeserters('wild', df.global.ui.main.fortress_entity.entity_links[0].target)
+    --for _, civ_id in pairs(diplomat_civ_ids) do checkForDeserters('diplomat', civ_id) end
 end
 
 local function event_loop()
