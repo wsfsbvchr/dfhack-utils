@@ -59,6 +59,12 @@ function desert(u,method,civ)
 
 	local newent_id = -1
 	local newsite_id = -1
+	
+	-- free owned rooms
+	for i = #u.owned_buildings-1, 0, -1 do
+		local temp_bld = df.building.find(u.owned_buildings[i].id)
+		dfhack.buildings.setOwner(temp_bld, nil)
+	end
 
 	-- erase the unit from the fortress entity
 	for k,v in pairs(fort_ent.histfig_ids) do
@@ -89,6 +95,9 @@ function desert(u,method,civ)
 			break
 		end
 	end
+	
+	df.building.find()
+	dfhack.buildings.setOwner(item, nil)
 
 	-- try to find a new entity for the unit to join
 	for k,v in pairs(civ_ent.entity_links) do
