@@ -75,5 +75,6 @@ if opt and opt ~= "" then
     end
 end
 setstresslevels()
-dfhack.run_script('cust/emigration-debug', 'enable')
-dfhack.run_script('cust/emigration-debug', 'disable')
+--uncomment these to automate things
+--dfhack.run_script('emigration-debug', 'enable')
+--dfhack.run_script('emigration-debug', 'disable')
